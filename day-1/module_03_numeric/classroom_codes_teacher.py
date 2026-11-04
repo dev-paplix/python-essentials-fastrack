@@ -1,6 +1,6 @@
 # Import libraries
 import math
-from decimal import Decimal 
+from decimal import Decimal
 # Pi number
 print("value of pi is: ", math.pi)
 #Euler's number
