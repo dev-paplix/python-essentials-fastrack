@@ -142,3 +142,118 @@ for i in range(len(adjusted_sales)):
 print(f"Adjusted Sales (with bonus): {adjusted_sales}")
 
 # 2D Arrays or Matrix
+
+matrix_2d = [
+    [22, 25, 28, 23],
+    [19, 21, 20, 22],
+    [31, 33, 29, 30]
+]
+
+print("2D Grid display")
+for r_idx, row in enumerate(matrix_2d):
+    row_str = " ".join(f"{val:>2} C" for val in row)
+    print(f" Zone {r_idx}: [ {row_str} ]")
+
+num_rows = len(matrix_2d)
+num_cols = len(matrix_2d[0])
+print(f"\nThe number of rows: {num_rows}")
+print(f"\nThe number of columns: {num_cols}")
+
+# Breaking down the matrix
+print("\nRow Sums:")
+for r in range(num_rows):
+    row_sum = 0
+    for c in range(num_cols):
+        row_sum +=matrix_2d[r][c]
+    print(f" Zone {r} Total: {row_sum}")
+
+print("\nColumn Sums:")
+for c in range(num_cols):
+    col_sum = 0
+    for r in range(num_rows):
+        col_sum +=matrix_2d[r][c]
+    print(f" Time Slot {c} Total: {col_sum}")
+
+# Extracting diagonal in matrix
+square_matrix = [
+    [10, 2, 3],
+    [4, 20, 6],
+    [7, 8, 30]
+]
+diagonal = [square_matrix[i][i] for i in range(len(square_matrix))]
+print(f"\nSquare Matrix Primary Diagonal: {diagonal}")
+
+""" Ternary operation for tempreture clasification
+
+matrix_2d = [
+    [22, 25, 28, 23],
+    [19, 21, 20, 22],
+    [31, 33, 29, 30]
+]
+"""
+classified_grid = []
+for row in matrix_2d:
+    clasified_row = ["Hot" if cell >= 25 else "Comfort" for cell in row]
+    classified_grid.append(clasified_row)
+
+print("\nClassified 2D grid:")
+for row in classified_grid:
+    print(row)
+
+# 3D Arrays (Cubes/Tensors)
+
+building_tempretures = [
+    # floor 0
+    [
+        [20.5, 21.0], # room 0 first number demostrates the sensor 0 and second demonstrates sensor 1
+        [22.0, 22.5], # room 1
+        [19.8, 20.2]  # room 2
+    ],
+    # floor 1 
+    [
+        [24.0, 24.5], # room 0
+        [28.5, 29.0], # room 1
+        [23.0, 23.5]  # room 2
+    ]
+]
+
+total_building_sum = 0
+total_sensor_count = 0
+hotspot_treshhold = 26.0
+hotspots = []
+
+for floor_idx, floor in enumerate(building_tempretures):
+    floor_sum = 0.0
+    floor_count = 0
+    for room_idx , room in enumerate(floor):
+        for sensor_idx , temp in enumerate(room):
+            floor_sum += temp
+            floor_count += 1
+            total_building_sum +=temp
+            total_sensor_count += 1
+
+            # Check for hotspots
+            if temp > hotspot_treshhold:
+                hotspots.append((floor_idx, room_idx, sensor_idx, temp))
+    
+    floor_avg = floor_sum/ floor_count
+    print(f"\nFloor {floor_idx}: Average Temp = {floor_avg:.2f} C (Sensors: {floor_count})")
+
+building_avg = total_building_sum / total_sensor_count
+print(f"\nBuiding-wide Average Temp: {building_avg:.2f} C")
+print(f"\nHotspots detected (>{hotspot_treshhold} C)")
+
+for f, r, s, t in hotspots:
+    print(f"\n -> Floor {f}, Room {r}, Sensor {s}: {t} C")
+
+# Alert system if it hits the treshhold of 26 C
+
+status_cube = []
+for floor in building_tempretures:
+    floor_status = []
+    for room in floor:
+        room_status = ["Alert" if sensor > hotspot_treshhold else "Normal" for sensor in room]
+        floor_status.append(room_status)
+    status_cube.append(floor_status)
+
+print(f"\n3D status cube (floor 1, room 1 ): {status_cube[1][1]}")
