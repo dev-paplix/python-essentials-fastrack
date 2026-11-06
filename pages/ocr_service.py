@@ -36,7 +36,7 @@ def _call_gemini_sdk(image_bytes: bytes, mime_type: str) -> str:
         "Ensure all currency amounts, numbers, and dates are preserved exactly as shown."
     )
 
-    models_to_try = ["gemini-3.8-flash"]
+    models_to_try = ["gemini-3.6-flash"]
     last_err = None
 
     for model_name in models_to_try:
