@@ -1,2 +1,2 @@
-PyJWT
 robyn
+google-genai
