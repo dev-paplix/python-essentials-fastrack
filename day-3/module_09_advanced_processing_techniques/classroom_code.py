@@ -164,3 +164,39 @@ print("Extracted Products from HTML:")
 
 for product in scrapper.products:
     print(f"Product Title: {product['title']}, Price: {product['price']}")
+
+
+# Erro Handling and custom Exception
+header("Error Handling and Custom Exceptions")
+
+
+class PaymentGatewayError(Exception):
+    pass
+
+class InsufficientFundsError(PaymentGatewayError):
+    def __init__(self, balance: float, required: float):
+        self.balance = balance
+        self.required = required
+        super().__init__(f"Insufficient funds: Balance is {balance}, but {required} is required.")
+
+def process_payment(balance: float, charge_amount: float) -> float:
+    if charge_amount <= 0:
+        raise ValueError("Charge amount must be positive.")
+    if charge_amount > balance:
+        raise InsufficientFundsError(balance, charge_amount)
+    return balance - charge_amount
+
+for attempt in [50.0, 500.0, -10.0]:
+    try:
+        current_balance = 100.0
+        print(f"\n Attemting to charge of {attempt:.2f} from balance of {current_balance:.2f}")
+        new_balance = process_payment(current_balance, attempt)
+
+    except InsufficientFundsError as ibe:
+        print(f"Payment failed: {ibe}")
+    except ValueError as ve:
+        print(f"Payment failed: {ve}")
+    else:
+        print(f"Payment successful! New balance: {new_balance:.2f}")
+    finally:
+        print("Payment processing attempt completed.")
